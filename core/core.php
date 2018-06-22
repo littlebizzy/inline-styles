@@ -20,17 +20,21 @@ final class Core extends Helpers\Singleton {
 	 * Pseudo constructor
 	 */
 	protected function onConstruct() {
-		
+
+		// Factory object
+		$this->plugin->factory = new Factory($this->plugin);
+
+		// Print styles hook
+		add_action('wp_print_styles', [$this, 'styles'], PHP_INT_MAX);
 	}
 
 
 
 	/**
-	 * Remove script from queue
+	 * Handle print styles hook
 	 */
-	public function dequeue() {
-
-
+	public function styles() {
+		$this->plugin->factory->inline->transform();
 	}
 
 
