@@ -13,10 +13,20 @@ class Relative {
 
 
 
+	// Properties
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Base URL
 	 */
 	private $base;
+
+
+
+	// Initialization
+	// ---------------------------------------------------------------------------------------------------
 
 
 
@@ -26,6 +36,11 @@ class Relative {
 	public function __construct($base) {
 		$this->base = $base;
 	}
+
+
+
+	// Methods
+	// ---------------------------------------------------------------------------------------------------
 
 
 
@@ -48,6 +63,11 @@ class Relative {
 
 
 
+	// Internal
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Convert relative to absolute URLs
 	 *
@@ -56,7 +76,7 @@ class Relative {
 	 */
 	private function convert($rel) {
 
-		// Trimming
+		// Triming
 		$rel = trim($rel);
 		$rel = trim($rel, "'");
 		$rel = trim($rel, '"');
@@ -93,11 +113,11 @@ class Relative {
 		// First absolute URL
 		$abs = $host.$path. '/'.$rel;
 
-		// replace '//' or  '/./' or '/foo/../' with '/'
+		// Replace '//' or  '/./' or '/foo/../' with '/'
 		$abs = preg_replace("/(\/\.?\/)/", "/", $abs);
 		$abs = preg_replace("/\/(?!\.\.)[^\/]+\/\.\.\//", "/", $abs);
 
-		// absolute URL is ready!
+		// Absolute URL is ready!
 		return $scheme.'://'.$abs;
 	}
 
