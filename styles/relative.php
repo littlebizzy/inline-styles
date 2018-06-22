@@ -34,7 +34,7 @@ class Relative {
 	 */
 	public function absolute($content) {
 		$result = preg_replace_callback('/url\((.*?)\)/i', [$this, 'replace'], $content);
-		return empty($result)? $result : $content;
+		return empty($result)? $content : $result;
 	}
 
 
@@ -47,51 +47,58 @@ class Relative {
 	}
 
 
+
 	/**
+	 * Convert relative to absolute URLs
+	 *
+	 * Inspired by this code:
 	 * http://www.gambit.ph/converting-relative-urls-to-absolute-urls-in-php/
 	 */
-	public function convert($rel) {
+	private function convert($rel) {
 
 		// Trimming
 		$rel = trim($rel);
 		$rel = trim($rel, "'");
 		$rel = trim($rel, '"');
 		$rel = trim($rel);
-error_log($rel);
-		// parse base URL  and convert to local variables: $scheme, $host,  $path
-		extract( parse_url( $this->base ) );
 
-		if ( strpos( $rel,"//" ) === 0 ) {
-			return $scheme . ':' . $rel;
-		}
-
-		// return if already absolute URL
-		if ( parse_url( $rel, PHP_URL_SCHEME ) != '' ) {
+		// Base URL components
+		$base = @parse_url($this->base);
+		if (empty($base) || !is_array($base))
 			return $rel;
-		}
 
-		// queries and anchors
-		if ( $rel[0] == '#' || $rel[0] == '?' ) {
-			return $this->base . $rel;
-		}
+		// Base vars: $scheme, $host, $path
+		extract($base);
 
-		// remove non-directory element from path
-		$path = preg_replace( '#/[^/]*$#', '', $path );
+		// Relative URL
+		if (0 === strpos($rel,"//"))
+			return $scheme . ':' . $rel;
 
-		// destroy path if relative url points to root
-		if ( $rel[0] ==  '/' ) {
+		// Check if already is an absolute URL
+		$result = @parse_url($rel, PHP_URL_SCHEME);
+		if (!empty($result))
+			return $rel;
+
+		// Queries and anchors
+		if ('#' == $rel[0] || '?' == $rel[0])
+			return $this->base.$rel;
+
+		// Remove non-directory element from path
+		$path = preg_replace('#/[^/]*$#', '', $path);
+
+		// Destroy path if relative url points to root
+		if ('/' == $rel[0])
 			$path = '';
-		}
 
-		// dirty absolute URL
-		$abs = $host . $path . "/" . $rel;
+		// First absolute URL
+		$abs = $host.$path. '/'.$rel;
 
 		// replace '//' or  '/./' or '/foo/../' with '/'
-		$abs = preg_replace( "/(\/\.?\/)/", "/", $abs );
-		$abs = preg_replace( "/\/(?!\.\.)[^\/]+\/\.\.\//", "/", $abs );
+		$abs = preg_replace("/(\/\.?\/)/", "/", $abs);
+		$abs = preg_replace("/\/(?!\.\.)[^\/]+\/\.\.\//", "/", $abs);
 
 		// absolute URL is ready!
-		return $scheme . '://' . $abs;
+		return $scheme.'://'.$abs;
 	}
 
 
