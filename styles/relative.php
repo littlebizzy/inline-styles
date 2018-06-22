@@ -58,7 +58,7 @@ class Relative {
 	 * Matched strings
 	 */
 	public function replace($matches) {
-		return $this->convert($matches[1]);
+		return 'url("'.$this->convert($matches[1]).'")';
 	}
 
 
