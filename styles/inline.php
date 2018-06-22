@@ -56,8 +56,11 @@ class Inline extends Helpers\Singleton {
 				if (empty($object->extra) || !is_array($object->extra))
 					$object->extra = [];
 
+				// Check previous inline styles
+				$before = isset($object->extra['after'])? (array) $object->extra['after'] : [];
+
 				// Add inline content
-				$object->extra['after'] = [$content];
+				$object->extra['after'] = array_merge([$content], $before);
 			}
 		}
 	}
