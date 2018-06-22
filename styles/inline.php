@@ -74,8 +74,12 @@ class Inline extends Helpers\Singleton {
 
 		// Early check
 		if (false !== stripos($content, 'url(')) {
+
+			// Prepare base URL
 			$url = WP_CONTENT_URL.'/'.$src;
 			$relative = $this->plugin->factory->relative($url);
+
+			// Convert URLs
 			$content = $relative->absolute($content);
 		}
 
