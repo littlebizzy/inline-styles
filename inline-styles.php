@@ -30,13 +30,13 @@ const VERSION = '1.0.0';
 require_once dirname(FILE).'/helpers/loader.php';
 
 // Admin Notices
-Notices\Admin_Notices::instance(__FILE__);
+// Notices\Admin_Notices::instance(__FILE__);
 
 /**
  * Admin Notices Multisite check
  * Uncomment "return;" to disable this plugin on Multisite installs
  */
-if (false !== Notices\Admin_Notices_MS::instance(__FILE__)) { /* return; */ }
+// if (false !== Notices\Admin_Notices_MS::instance(__FILE__)) { /* return; */ }
 
 // Run the main class
 Helpers\Runner::start('Core\Core', 'instance');
