@@ -33,9 +33,18 @@ class Inline extends Helpers\Singleton {
 
 			// Check conditional IE declaration
 			if (!empty($object->extra['conditional'])) {
+
+				// Check conditional value
 				$conditional = explode(' ', preg_replace('/\s+/', ' ', ''.$object->extra['conditional']));
-				if ('ie' == strtolower($conditional[0]) || (isset($conditional[1]) && 'ie' == strtolower($conditional[1])))
+				if (!empty($conditional)) {
+
+					// Remove in case of IE condition
+					if ('ie' == strtolower($conditional[0]) || (isset($conditional[1]) && 'ie' == strtolower($conditional[1])))
+						unset($styles->registered[$key]);
+
+					// Done
 					continue;
+				}
 			}
 
 			// Check valid src
