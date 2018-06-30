@@ -24,6 +24,9 @@ final class Core extends Helpers\Singleton {
 		// Factory object
 		$this->plugin->factory = new Factory($this->plugin);
 
+		// WP loaded hook
+		add_action('wp_loaded', [$this, 'loaded'], PHP_INT_MAX);
+
 		// Print styles hook
 		add_action('wp_print_styles', [$this, 'styles'], PHP_INT_MAX);
 	}
@@ -31,7 +34,16 @@ final class Core extends Helpers\Singleton {
 
 
 	/**
-	 * Handle print styles hook
+	 * Output parser object
+	 */
+	public function loaded() {
+		$this->plugin->factory->parser->start();
+	}
+
+
+
+	/**
+	 * Handle the print styles hook
 	 */
 	public function styles() {
 		$this->plugin->factory->inline->transform();

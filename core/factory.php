@@ -35,4 +35,13 @@ class Factory extends Helpers\Factory {
 
 
 
+	/**
+	 * Parser object
+	 */
+	protected function createParser() {
+		return Styles\Parser::instance($this->plugin);
+	}
+
+
+
 }
