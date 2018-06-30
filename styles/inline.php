@@ -61,7 +61,7 @@ class Inline extends Helpers\Singleton {
 
 					// Check src exception
 					} elseif (!empty($object->src)) {
-						$this->exceptions[] = $object->src;
+						$this->exception($object);
 					}
 
 					// Done
@@ -74,7 +74,7 @@ class Inline extends Helpers\Singleton {
 
 				// Add exception
 				if (!empty($object->src))
-					$this->exceptions[] = $object->src;
+					$this->exception($object);
 
 				// Done
 				continue;
@@ -123,6 +123,22 @@ class Inline extends Helpers\Singleton {
 
 	// Internal
 	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Register exception
+	 */
+	private function exception($object) {
+
+		// Check URL version
+		$url = $object->src;
+		if (!empty($object->ver))
+			$url .= '&ver='.$object->ver;
+
+		// Done
+		$this->exceptions[] = $url;
+	}
 
 
 
