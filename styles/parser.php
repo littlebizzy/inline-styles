@@ -16,10 +16,27 @@ class Parser extends Helpers\Singleton {
 
 
 
+	// Properties
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Enabled mode
 	 */
 	private $enabled = false;
+
+
+
+	/**
+	 * Allowed URL's
+	 */
+	private $allowed;
+
+
+
+	// Initialization
+	// ---------------------------------------------------------------------------------------------------
 
 
 
@@ -54,6 +71,11 @@ class Parser extends Helpers\Singleton {
 
 
 
+	// Methods
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Init output buffering
 	 */
@@ -62,8 +84,6 @@ class Parser extends Helpers\Singleton {
 		// Check mode
 		if (!$this->enabled)
 			return;
-
-		// ..
 
 		// Buffering
 		ob_start([$this, 'output']);
@@ -76,10 +96,54 @@ class Parser extends Helpers\Singleton {
 	 */
 	public function output($buffer) {
 
-		// ...
+		// Allowed stylesheet src's
+		$this->allowed = $this->plugin->factory->inline->allowed();
+
+		// Check every stylesheet link
+		$buffer = preg_replace_callback('/<link[^>]*rel[\s|\t]*=[\s|\t]*[\'"]stylesheet[\'"][^>]*>/is', [$this, 'replace'], $buffer);
 
 		// Done
 		return $buffer;
+	}
+
+
+
+	/**
+	 * Check and remove unallowed stylesheets
+	 */
+	public function replace($matches) {
+
+		// Init
+		$approved = true;
+
+		// Entire link
+		$link = $matches[0];
+
+		// Check href
+		if (!preg_match('/[\s|\t]+href[\s|\t]*=[\s|\t]*[\'"](.*?)[\'"]/is', $link, $url)) {
+			$approved = false;
+
+		// With URL
+		} else {
+
+			// Decode URL
+			$url = str_replace('&#038;', '&', $url[1]);
+
+			// Check URL
+			if (empty($url)) {
+				$approved = false;
+
+			// Check allowed URL's
+			} elseif (!in_array($url, $this->allowed)) {
+
+				// Allow WP includes
+				if (false === stripos($url, '/wp-includes/'))
+					$approved = false;
+			}
+		}
+
+		// Done
+		return $approved? $link : '';
 	}
 
 
