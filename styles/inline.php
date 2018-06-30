@@ -16,6 +16,23 @@ class Inline extends Helpers\Singleton {
 
 
 
+	// Properties
+	// ---------------------------------------------------------------------------------------------------
+
+
+
+	/**
+	 * Allowed link src
+	 */
+	private $exceptions = [];
+
+
+
+	// Methods
+	// ---------------------------------------------------------------------------------------------------
+
+
+
 	/**
 	 * Transform external to inline styles
 	 */
@@ -39,8 +56,13 @@ class Inline extends Helpers\Singleton {
 				if (!empty($conditional)) {
 
 					// Remove in case of IE condition
-					if ('ie' == strtolower($conditional[0]) || (isset($conditional[1]) && 'ie' == strtolower($conditional[1])))
+					if ('ie' == strtolower($conditional[0]) || (isset($conditional[1]) && 'ie' == strtolower($conditional[1]))) {
 						unset($styles->registered[$key]);
+
+					// Check src exception
+					} elseif (!empty($object->src)) {
+						$this->exceptions[] = $object->src;
+					}
 
 					// Done
 					continue;
@@ -48,8 +70,15 @@ class Inline extends Helpers\Singleton {
 			}
 
 			// Check valid src
-			if (empty($object->src) || !stripos($object->src, '/wp-content/'))
+			if (empty($object->src) || !stripos($object->src, '/wp-content/')) {
+
+				// Add exception
+				if (!empty($object->src))
+					$this->exceptions[] = $object->src;
+
+				// Done
 				continue;
+			}
 
 			// Check src path
 			$src = explode('/wp-content/', $object->src, 2);
@@ -80,6 +109,20 @@ class Inline extends Helpers\Singleton {
 			$object->extra['after'] = array_merge([$content], $before);
 		}
 	}
+
+
+
+	/**
+	 * Retrieve allowed excpetions
+	 */
+	public function allowed() {
+		return $this->exceptions;
+	}
+
+
+
+	// Internal
+	// ---------------------------------------------------------------------------------------------------
 
 
 
