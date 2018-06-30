@@ -100,7 +100,7 @@ class Parser extends Helpers\Singleton {
 		$this->allowed = $this->plugin->factory->inline->allowed();
 
 		// Check every stylesheet link
-		$buffer = preg_replace_callback('/<link[^>]*rel[\s|\t]*=[\s|\t]*[\'"]stylesheet[\'"][^>]*>/is', [$this, 'replace'], $buffer);
+		$buffer = preg_replace_callback('/<link[^>]*(rel[\s|\t]*=[\s|\t]*[\'"]stylesheet[\'"]|type[\s|\t]*=[\s|\t]*[\'"]text\/css[\'"])[^>]*>/is', [$this, 'replace'], $buffer);
 
 		// Done
 		return $buffer;
