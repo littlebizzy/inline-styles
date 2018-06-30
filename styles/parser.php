@@ -127,7 +127,9 @@ class Parser extends Helpers\Singleton {
 		} else {
 
 			// Decode URL
-			$url = str_replace('&#038;', '&', $url[1]);
+			$url = $url[1];
+			$url = str_replace('&#038;', '&', $url);
+			$url = str_replace('&#039;', "'", $url);
 
 			// Check URL
 			if (empty($url)) {
