@@ -138,8 +138,8 @@ class Parser extends Helpers\Singleton {
 			// Check allowed URL's
 			} elseif (!in_array($url, $this->allowed)) {
 
-				// Allow WP includes
-				if (false === stripos($url, '/wp-includes/'))
+				// Abort unallowed wp-content URL's
+				if (false !== stripos($url, '/wp-content/'))
 					$approved = false;
 			}
 		}
