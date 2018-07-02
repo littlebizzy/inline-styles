@@ -69,14 +69,13 @@ class Inline extends Helpers\Singleton {
 				}
 			}
 
+			// Check src value
+			if (empty($object->src))
+				continue;
+
 			// Check valid src
-			if (empty($object->src) || !stripos($object->src, '/wp-content/')) {
-
-				// Add exception
-				if (!empty($object->src))
-					$this->exception($object);
-
-				// Done
+			if (false === stripos($object->src, '/wp-content/')) {
+				$this->exception($object);
 				continue;
 			}
 
