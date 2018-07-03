@@ -2,7 +2,7 @@
 /*
 Plugin Name: Inline Styles
 Plugin URI: https://www.littlebizzy.com/plugins/inline-styles
-Description: Automagically loads content from your theme style.css in the site-wide head of your WordPress site as internal (embedded) CSS for faster page render.
+Description: Automagically loads styles from your active theme and plugins in the site-wide head of your site as internal (embedded) CSS for faster page render.
 Version: 1.1.0
 Author: LittleBizzy
 Author URI: https://www.littlebizzy.com
