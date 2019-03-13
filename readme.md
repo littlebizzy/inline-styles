@@ -1,6 +1,6 @@
 # Inline Styles
 
-Automagically loads content from your theme style.css in the site-wide head of your WordPress site as internal (embedded) CSS for faster page render.
+Automagically loads styles from your active theme and plugins in the site-wide head of your site as internal (embedded) CSS for faster page render.
 
 * [Plugin Homepage](https://www.littlebizzy.com/plugins/inline-styles)
 * [Download Latest Version (ZIP)](https://github.com/littlebizzy/inline-styles/archive/1.1.0.zip)
