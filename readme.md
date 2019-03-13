@@ -2,13 +2,18 @@
 
 Automagically loads content from your theme style.css in the site-wide head of your WordPress site as internal (embedded) CSS for faster page render.
 
-* [Plugin Homepage (LittleBizzy.com)](https://www.littlebizzy.com/plugins/inline-styles)
-* [Free Facebook Group](https://www.facebook.com/groups/littlebizzy/)
+* [Plugin Homepage](https://www.littlebizzy.com/plugins/inline-styles)
+* [Download Latest Version (ZIP)](https://github.com/littlebizzy/inline-styles/archive/1.1.0.zip)
+* [**Become A LittleBizzy.com Member Today!**](https://www.littlebizzy.com/members)
 
 ### Defined Constants
 
     /* Plugin Meta */
-    define('DISABLE_NAG_NOTICES', true);
+    define('AUTOMATIC_UPDATE_PLUGINS', false); // default = false
+    define('DISABLE_NAG_NOTICES', true); // default = true
+    
+    /* Inline Styles Functions */
+    define('INLINE_STYLES', true); // default = true
 
 ### Compatibility
 
